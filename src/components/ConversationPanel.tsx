@@ -34,7 +34,7 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
         if (selectedChatId !== 0) {
 
             const data = await getMessages(selectedChatId);
-            
+
 
             setMessages(data);
             setLoadingMessages(false);
@@ -144,7 +144,7 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
 
         const response = await deleteChatMessages(chatId);
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             // alert('Chat limpiado con exito');
             Swal.fire({
                 title: 'Chat limpiado con exito',
@@ -160,7 +160,7 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
 
     useEffect(() => {
         fetchMessages(chatId);
-    }, [chatId,loadingMessages])
+    }, [chatId, loadingMessages])
 
 
     if (loadingMessages) {
@@ -201,8 +201,22 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
                                     <>
                                         <div className="chat-bubble chat-user align-self-end">
                                             <ReactMarkdown>{message.contenido}</ReactMarkdown>
+                                            {message.tipo_archivo === 'image/png' && (
+                                            <>
+                                                {/* <p>{message.url_archivo}/{message.nombre_original}</p> */}
+                                                {/* /Users/juansolares/courses/prueba-innovacion/backend/img/english.png */}
+                                                {/* ${message.url_archivo}/${message.nombre_original} */}
+                                                <img src={`src/img/${message.nombre_original}`} alt="imagen" />
+                                            </>
+
+
+                                            )}
                                         </div>
+                                        {
+
+                                        }
                                         <div className="chat-bubble chat-bot align-self-start">
+                                    
                                             <ReactMarkdown>{message.contenido_respuesta}</ReactMarkdown>
                                         </div>
                                     </>
@@ -217,7 +231,7 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
                                 className="form-control"
                                 onChange={handleInputChange}
                                 placeholder="Escribe un mensaje..." />
-                            <input 
+                            <input
                                 type="file"
                                 id="fileInput"
                                 className="form-control form-control-sm"
