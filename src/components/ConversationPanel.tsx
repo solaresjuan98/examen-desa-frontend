@@ -3,6 +3,7 @@ import { useChat } from "../hooks/useChat";
 import { Message } from "../interfaces";
 import ReactMarkdown from 'react-markdown';
 import { LoaderOverlay } from "./LoaderOverlay";
+import Swal from 'sweetalert2';
 
 interface ConversationPanelProps {
     chatId: number;
@@ -16,7 +17,7 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
         sendOnlyTextMessage,
         sendImageMessage,
         sendPdfMessage,
-        sendMCPMessage,
+        sendVectorMessages,
         deleteChatMessages,
         setLoadingMessages,
         loadingMessages
@@ -114,9 +115,9 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
             resetForm(response.status);
         }
 
-        // validar si es en modo MCP 
+        // validar si es en modo MCP / pgvector / vector
         if (creativeMode && textMessage && !file) {
-            const response = await sendMCPMessage(chatId, textMessage);
+            const response = await sendVectorMessages(chatId, textMessage);
             resetForm(response.status);
         }
 
@@ -144,7 +145,13 @@ export const ConversationPanel = ({ chatId }: ConversationPanelProps) => {
         const response = await deleteChatMessages(chatId);
 
         if(response.status === 200) {
-            alert('Chat limpiado con exito');
+            // alert('Chat limpiado con exito');
+            Swal.fire({
+                title: 'Chat limpiado con exito',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
             fetchMessages(chatId);
         }
 

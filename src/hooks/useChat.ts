@@ -133,6 +133,24 @@ export const useChat = () => {
     }
 
 
+    const sendVectorMessages = async (chatId: number, message: string) => {
+
+        try {
+
+            const { data } = await axios.post('/search/vector', {
+                "chat_id": chatId,
+                "query": message
+            })
+
+            return data;
+
+        } catch (error) {
+            console.error('Error al enviar el mensaje:', error);
+            
+        }
+
+    }
+
 
 
     useEffect(() => {
@@ -153,6 +171,7 @@ export const useChat = () => {
         sendPdfMessage,
         sendMCPMessage,
         deleteChatMessages,
+        sendVectorMessages,
         loadingChats,
         loadingMessages,
         setLoadingMessages,
